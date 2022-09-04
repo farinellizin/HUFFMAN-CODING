@@ -1,4 +1,4 @@
-#include "HoffTree.hpp"
+#include "HuffTree.hpp"
 
 void huffTreeInit(HuffTree **ht) {
     *ht = NULL;

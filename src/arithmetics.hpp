@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <unordered_map>
+#include <vector>
 using namespace std;
 
 bool stopLetters(string content); // verify if it's a single letter

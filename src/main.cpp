@@ -17,7 +17,10 @@ int main () {
     }
     //
 
+    cout << "Map size: " << content.size() << endl;
 
+
+    // just printing to check
     for (auto item: content) {
         // content[item.first] = ((item.second) / (maxRP - minRP));
         cout << item.first << "\t" << item.second << endl;

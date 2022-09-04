@@ -1,5 +1,5 @@
-#ifndef HOFFTREE_HPP
-#define HOFFTREE_HPP
+#ifndef HUFFTREE_HPP
+#define HUFFTREE_HPP
 #include "arithmetics.hpp"
 typedef struct Data Data;
 typedef struct HuffTree HuffTree;
