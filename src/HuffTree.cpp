@@ -4,18 +4,17 @@ void huffTreeInit(HuffTree **ht) {
     *ht = NULL;
 }
 
-void huffTreeInsert(HuffTree **ht, Data content, float *leftSonValue, float *rightSonValue) {
-    if (*ht == NULL) {
-        (*ht) = new HuffTree;
-        content.value = (*leftSonValue) + (*rightSonValue);
-        (*ht) -> item = content;
-        (*ht) -> rightSon -> item.value = *rightSonValue;
-        (*ht) -> leftSon -> item.value = *leftSonValue;
+void huffTreeInsert(HuffTree **t, Data content) {
+    if (*t == NULL) {
+        (*t) = new HuffTree;
+        (*t) -> rightSon = NULL;
+        (*t) -> leftSon = NULL;
+        (*t) -> item = content;
     } else {
-        if ((*ht) -> item.value > content.value) {
-            huffTreeInsert(&(*ht) -> leftSon, content, &(*ht) -> leftSon -> item.value, &(*ht) -> rightSon -> item.value);
+        if ((*t) -> item.normalizedValue > content.normalizedValue) {
+            huffTreeInsert(&(*t) -> leftSon, content);
         } else {
-            huffTreeInsert(&(*ht) -> rightSon, content, &(*ht) -> leftSon -> item.value, &(*ht) -> rightSon -> item.value);
+            huffTreeInsert(&(*t) -> rightSon, content);
         }
     }
 }

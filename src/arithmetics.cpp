@@ -21,8 +21,6 @@ string stringTreatment(string content) {
         }
     }
 
-    cout << "Conteúdo: " << aux << endl;
-
     return aux;
 }
 
@@ -78,11 +76,8 @@ float getMinRP(unordered_map <string, float> *content) {
     return min;
 }
 
-// void normalizeAccounting(float maxRP, float minRP, unordered_map <string, float> *content) {
-//     for (auto item: *content) {
-//         content[item.first] = ((item.second) / (maxRP - minRP));
-//         cout << item.first << "\t" << item.second << endl;
-//     }
-
-//     cout << endl << endl << endl;
-// }
+void normalizeAccounting(float maxRP, float minRP, unordered_map <string, float> &content) {
+    for (auto item: content) {
+        content[item.first] = ((item.second) / (maxRP - minRP));
+    }
+}

@@ -6,8 +6,8 @@ typedef struct HuffTree HuffTree;
 using namespace std;
 
 struct Data {
-    float value;
-    int level;
+    float normalizedValue;
+    string word;
 };
 
 struct HuffTree {
@@ -16,11 +16,6 @@ struct HuffTree {
 };
 
 void huffTreeInit(HuffTree **hf);
-void huffTreeInsert(HuffTree **ht, Data content, float *leftSonValue, float *rightSonValue);
-
-
-
-
-
+void huffTreeInsert(HuffTree **ht, Data content);
 
 #endif
