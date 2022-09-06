@@ -1,39 +1,49 @@
 #include "HuffTree.hpp"
 
-void huffTreeInit(HuffTree **ht) {
-    *ht = NULL;
-}
+void insertionSort(vector <HuffTree*> &treeValues) {
+    HuffTree *aux;
+    int j;
 
-void huffTreeInsert(HuffTree **t, Data content) {
-    if (*t == NULL) {
-        (*t) = new HuffTree;
-        (*t) -> rightSon = NULL;
-        (*t) -> leftSon = NULL;
-        (*t) -> item = content;
-    } else {
-        if ((*t) -> item.normalizedValue > content.normalizedValue) {
-            huffTreeInsert(&(*t) -> leftSon, content);
-        } else {
-            huffTreeInsert(&(*t) -> rightSon, content);
+    for (long unsigned int i = 1; i < treeValues.size(); i++) {
+        aux = treeValues[i];
+        j = i - 1;
+
+        while (j >= 0 && aux-> item.normalizedValue > treeValues[j]->item.normalizedValue) {
+            treeValues[j + 1] = treeValues[j];
+            j = j - 1;
         }
+
+        treeValues[j + 1] = aux;
     }
 }
 
+void joinNodes(vector <HuffTree*> &treeValues) {
+    HuffTree *leftSon;
+    HuffTree *rightSon;
+    HuffTree *aux;
+    
+    while (treeValues.size() != 1) {
+        leftSon = treeValues[treeValues.size() - 1];
+        rightSon = treeValues[treeValues.size() - 2];
+
+        treeValues.pop_back();
+        treeValues.pop_back();
+
+        aux = new HuffTree;
+        aux -> item.normalizedValue = (leftSon -> item.normalizedValue + rightSon -> item.normalizedValue);
+        aux -> leftSon = leftSon;
+        aux -> rightSon = rightSon;
+
+        treeValues.push_back(aux);
+        insertionSort(treeValues);
+    }
+
+    // cout << "expected result: "; 
+    // cout << treeValues[0]->item.normalizedValue << endl << endl;
+}
 
 
 
-
-/*
-    ALGORITMO DE INSERÇÃO PARA HOFFTREE
-
-    Obs >> SEMPRE JUNTAR OS DOIS MENORES, A SOMA DELES SERÁ O VALOR DO PAI.
-
-    1 - Verificar quais são os menores valores.
-    2 - Iniciar uma árvore:
-        - Pai = soma dos dois valores menores;
-        - Filho direito = maior valor;
-        - Filho esquerdo = menor valor;
-    3 - Salvar o endereço do Pai;
-    4 - Fazer isso até esvaziar o unordered_map de valores.
-
-*/
+// acessar ultima posicao >> treeValues.size() - 1;
+// acessar penultima posicao >> treeValues.size() - 2;
+// valor final = 26!!

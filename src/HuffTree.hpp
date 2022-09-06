@@ -15,7 +15,7 @@ struct HuffTree {
     HuffTree *leftSon, *rightSon;
 };
 
-void huffTreeInit(HuffTree **hf);
-void huffTreeInsert(HuffTree **ht, Data content);
+void insertionSort(vector <HuffTree*> &treeValues);
+void joinNodes(vector <HuffTree*> &treeValues);
 
 #endif
