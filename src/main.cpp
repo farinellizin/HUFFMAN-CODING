@@ -21,11 +21,11 @@ void insertionSort(vector <int> &v) {
 
 void mapToVector(vector <HuffTree*> &treeValues, unordered_map <string, float> &content) {
     HuffTree *aux;
-    aux = NULL;
 
     for (auto search: content) {
-        aux->item.word = search.first;
-        aux->item.normalizedValue = search.second;
+        aux = new HuffTree;
+        aux -> item.word = search.first;
+        aux -> item.normalizedValue = search.second;
         treeValues.push_back(aux);
     }
 }
@@ -44,10 +44,7 @@ int main () {
     mapToVector(treeValues, content);
 
 
-    // for (long unsigned int i = 0; i < treeValues.size(); i++) {
-    //     cout << "Valor: " << treeValues[i]->item.normalizedValue << "\t Palavra: " << treeValues[i] -> item.word << endl;
-    // }
-
+    
     // // just printing to check
     // for (auto item: content) {
     //     cout << item.first << "\t" << item.second << endl;
