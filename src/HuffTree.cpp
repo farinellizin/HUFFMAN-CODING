@@ -36,14 +36,14 @@ void joinNodes(vector <HuffTree*> &treeValues) {
 
         treeValues.push_back(aux);
         insertionSort(treeValues);
+
+        for (long unsigned int i = 0; i < treeValues.size(); i++) {
+            cout << treeValues[i] -> item.normalizedValue << "\t";
+        }
+
+        cout << endl;
     }
 
-    // cout << "expected result: "; 
-    // cout << treeValues[0]->item.normalizedValue << endl << endl;
+    cout << "expected result: "; 
+    cout << treeValues[0]->item.word << endl << endl;
 }
-
-
-
-// acessar ultima posicao >> treeValues.size() - 1;
-// acessar penultima posicao >> treeValues.size() - 2;
-// valor final = 26!!

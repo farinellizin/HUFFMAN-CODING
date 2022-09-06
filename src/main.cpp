@@ -17,7 +17,4 @@ int main () {
     mapToVector(treeValues, content);
     insertionSort(treeValues);
     joinNodes(treeValues);
-    
-    // cout << "TAMANHO DE TREEVALUES: " << treeValues.size() << endl;
-    // cout << "TESTANDO ULTIMA POSICAO: " << treeValues[treeValues.size() - 1]->item.normalizedValue << endl << treeValues[treeValues.size() - 1]->item.word;
 }
