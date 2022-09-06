@@ -2,20 +2,37 @@
 #include "HuffTree.hpp"
 using namespace std;
 
-void insertionSort(vector <int> &v) {
-    int aux;
+// void insertionSort(vector <HuffTree*> &treeValues) {
+//     int aux;
+//     int j;
+
+//     for (long unsigned int i = 0; i < treeValues.size(); i++) {
+//         aux = treeValues[i]->item.normalizedValue;
+//         j = j - 1;
+
+//         while (j >= 0 && aux < treeValues[j]->item.normalizedValue) {
+//             treeValues[j + 1]->item.normalizedValue = treeValues[j]->item.normalizedValue;
+//             j = j - 1;
+//         }
+
+//         treeValues[j+1]->item.normalizedValue = aux;
+//     }
+// }
+
+void insertionSort(vector <HuffTree*> &treeValues) {
+    HuffTree *aux;
     int j;
 
-    for (long unsigned int i = 1; i < v.size(); i++) {
-        aux = v[i];
+    for (long unsigned int i = 1; i < treeValues.size(); i++) {
+        aux = treeValues[i];
         j = i - 1;
 
-        while (j >= 0 && aux < v[j]) {
-            v[j + 1] = v[j];
-            j--;
+        while (j >= 0 && aux-> item.normalizedValue > treeValues[j]->item.normalizedValue) {
+            treeValues[j + 1] = treeValues[j];
+            j = j - 1;
         }
 
-        v[j + 1] = aux;
+        treeValues[j + 1] = aux;
     }
 }
 
@@ -43,10 +60,17 @@ int main () {
     normalizeAccounting(maxRP, minRP, content);
     mapToVector(treeValues, content);
 
+    cout << "printing before sorting: " << endl << endl;
 
-    
-    // // just printing to check
-    // for (auto item: content) {
-    //     cout << item.first << "\t" << item.second << endl;
-    // }    
+    for (long unsigned int i = 0; i < treeValues.size(); i++) {
+        cout << treeValues[i]->item.normalizedValue << " ";
+    }
+
+    insertionSort(treeValues);
+
+    cout << endl << endl << "printing after sorting: " << endl << endl;
+
+    for (long unsigned int i = 0; i < treeValues.size(); i++) {
+        cout << treeValues[i]->item.normalizedValue << " ";
+    } 
 }
