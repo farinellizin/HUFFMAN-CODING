@@ -17,4 +17,5 @@ int main () {
     mapToVector(treeValues, content);
     insertionSort(treeValues);
     joinNodes(treeValues);
+    
 }

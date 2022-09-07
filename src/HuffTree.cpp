@@ -24,10 +24,15 @@ void joinNodes(vector <HuffTree*> &treeValues) {
     
     while (treeValues.size() != 1) {
         leftSon = treeValues[treeValues.size() - 1];
+        leftSon -> item.binaryCodification = 0;
         rightSon = treeValues[treeValues.size() - 2];
+        rightSon -> item.binaryCodification = 1;
 
         treeValues.pop_back();
         treeValues.pop_back();
+
+        cout << "LEFT SON WORD: " << leftSon -> item.word << "\t LEFT SON VALUE: " << leftSon -> item.normalizedValue << endl;
+        cout << "RIGHT SON WORD: " << rightSon -> item.word << "\t RIGHT SON VALUE: " << rightSon -> item.normalizedValue << endl << endl;
 
         aux = new HuffTree;
         aux -> item.normalizedValue = (leftSon -> item.normalizedValue + rightSon -> item.normalizedValue);
@@ -37,13 +42,8 @@ void joinNodes(vector <HuffTree*> &treeValues) {
         treeValues.push_back(aux);
         insertionSort(treeValues);
 
-        for (long unsigned int i = 0; i < treeValues.size(); i++) {
-            cout << treeValues[i] -> item.normalizedValue << "\t";
-        }
-
         cout << endl;
     }
 
-    cout << "expected result: "; 
-    cout << treeValues[0]->item.word << endl << endl;
+    cout << "expected result: " << treeValues[0]->item.normalizedValue << endl << endl;
 }
