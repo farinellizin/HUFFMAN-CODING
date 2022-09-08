@@ -1,7 +1,6 @@
 #ifndef ARITHMETICS_HPP
 #define ARITHMETICS_HPP
 #include <iostream>
-#include <cmath>
 #include <string>
 #include <fstream>
 #include <unordered_map>
