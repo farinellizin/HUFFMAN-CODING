@@ -46,25 +46,24 @@ void widthPath(HuffTree **t) {
 
     Queue aQueue;
     MEQueue(&aQueue);
-    qData aux;
+    qData aux, son;
     aux.val = *t;
     doQueue(&aQueue, aux);
     int cont = 0;
 
     while(!isQueueEmpty(&aQueue)) {
         deQueue(&aQueue, &aux);
-        *t = aux.val;
 
-        cout << (*t) -> item.word << endl;
+        cout << aux.val->item.word << endl;
 
-        if ((*t) -> leftSon != NULL) {
-            aux.val = (*t) -> leftSon;
-            doQueue(&aQueue, aux);
+        if (aux.val -> leftSon != NULL) {
+            son.val = aux.val -> leftSon;
+            doQueue(&aQueue, son);
         }
 
-        if ((*t) -> rightSon != NULL) {
-            aux.val = (*t) ->rightSon;
-            doQueue(&aQueue, aux);
+        if (aux.val -> rightSon != NULL) {
+            son.val = aux.val -> rightSon;
+            doQueue(&aQueue, son);
         }
 
         cont++;

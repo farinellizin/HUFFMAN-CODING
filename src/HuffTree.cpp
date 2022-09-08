@@ -31,8 +31,8 @@ void joinNodes(vector <HuffTree*> &treeValues) {
         treeValues.pop_back();
         treeValues.pop_back();
 
-        cout << "LEFT SON WORD: " << leftSon -> item.word << "\t LEFT SON VALUE: " << leftSon -> item.normalizedValue << endl;
-        cout << "RIGHT SON WORD: " << rightSon -> item.word << "\t RIGHT SON VALUE: " << rightSon -> item.normalizedValue << endl << endl;
+        // cout << "LEFT SON WORD: " << leftSon -> item.word << "\t LEFT SON VALUE: " << leftSon -> item.normalizedValue << endl;
+        // cout << "RIGHT SON WORD: " << rightSon -> item.word << "\t RIGHT SON VALUE: " << rightSon -> item.normalizedValue << endl << endl;
 
         aux = new HuffTree;
         aux -> item.normalizedValue = (leftSon -> item.normalizedValue + rightSon -> item.normalizedValue);
