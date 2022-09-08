@@ -1,6 +1,7 @@
 #include "arithmetics.hpp"
 #include "HuffTree.hpp"
 #include "extraFunctions.hpp"
+#include "queue.hpp"
 using namespace std;
 
 int main () {
@@ -17,5 +18,5 @@ int main () {
     mapToVector(treeValues, content);
     insertionSort(treeValues);
     joinNodes(treeValues);
-    
+    widthPath(&treeValues[0]);
 }

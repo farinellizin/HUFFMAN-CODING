@@ -27,8 +27,8 @@ void mapToVector(vector <HuffTree*> &treeValues, unordered_map <string, float> &
         treeValues.push_back(aux);
     }
 
-    aux = new HuffTree;
-    aux -> item.word = "xxxx";
-    aux -> item.normalizedValue = 30;
-    treeValues.push_back(aux);
+    // aux = new HuffTree;
+    // aux -> item.word = "xxxx";
+    // aux -> item.normalizedValue = 30;
+    // treeValues.push_back(aux);
 }
