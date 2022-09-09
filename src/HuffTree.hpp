@@ -13,7 +13,7 @@ struct Data {
 
 struct HuffTree {
     Data item;
-    HuffTree *leftSon, *rightSon;
+    HuffTree *leftSon, *rightSon, *dad;
 };
 
 void insertionSort(vector <HuffTree*> &treeValues);
