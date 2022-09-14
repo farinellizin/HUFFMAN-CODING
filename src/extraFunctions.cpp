@@ -18,7 +18,5 @@ void writeInFile(vector <bool> &mainVector) {
     myfile = fopen("text.dat", "wb");
     if (myfile != NULL) {
         fwrite(&mainVector, sizeof(bool), mainVector.size(), myfile);
-    } else {
-        cout << "unnable to write" << endl;
     }
 }

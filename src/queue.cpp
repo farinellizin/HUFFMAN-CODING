@@ -116,8 +116,7 @@ void findWordCode(HuffTree **t, string wordToSearch, vector <bool> &vectorToSave
     
     while(!isQueueEmpty(&aQueue)) {
         deQueue(&aQueue, &aux);
-        
-        // cout << aux.val->item.word << endl;
+
         if (aux.val -> item.word == wordToSearch) {
             vectorToSave = aux.val ->item.binaryCodification;
         }
@@ -141,10 +140,7 @@ void translateToBinary(vector <bool> &mainVector, vector <string> &text, HuffTre
 
     while (!text.empty()) {
         findWordCode(t, text[0], auxVec);
-        // cout << "word: " << text[0] << "\tcode: "; 
         for (long unsigned int i = 0; i < auxVec.size(); i++) {
-            // cout << auxVec[i];
-            // mainVector[mainVector.end()] = auxVec[i];
             mainVector.push_back(auxVec[i]);
         }
 
