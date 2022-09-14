@@ -21,22 +21,26 @@ void joinNodes(vector <HuffTree*> &treeValues) {
     HuffTree *leftSon;
     HuffTree *rightSon;
     HuffTree *aux;
+    vector <bool> auxVec;
     
     while (treeValues.size() != 1) {
-        leftSon = treeValues[treeValues.size() - 1];
-        leftSon -> item.binaryCodification = 0;
-        rightSon = treeValues[treeValues.size() - 2];
-        rightSon -> item.binaryCodification = 1;
+        leftSon = treeValues[treeValues.size() - 1]; // recebe left son
+        rightSon = treeValues[treeValues.size() - 2]; // recebe right son
 
-        treeValues.pop_back();
-        treeValues.pop_back();
+        treeValues.pop_back(); // tira ultimo valor
+        treeValues.pop_back(); // tira ultimo valor
 
-        aux = new HuffTree;
-        aux -> item.normalizedValue = (leftSon -> item.normalizedValue + rightSon -> item.normalizedValue);
-        aux -> leftSon = leftSon;
-        aux -> rightSon = rightSon;
+        aux = new HuffTree; // cria novo nó
+        aux -> item.normalizedValue = (leftSon -> item.normalizedValue + rightSon -> item.normalizedValue); // valor do nó (sem palavra)
+        aux -> leftSon = leftSon; // define filho esquerdo
+        aux -> leftSon -> dad = aux; // define o pai para o filho esquerdo
+        aux -> rightSon = rightSon; // define filho direito
+        aux -> rightSon -> dad = aux; // define o pai para o filho direito
 
         treeValues.push_back(aux);
         insertionSort(treeValues);
     }
+
+    treeValues[0] -> dad = NULL; // raiz está recebendo NULL!
+    treeValues[0] -> item.binaryCodification = auxVec;
 }

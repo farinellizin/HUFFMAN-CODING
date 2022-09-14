@@ -24,7 +24,7 @@ string stringTreatment(string content) {
     return aux;
 }
 
-void fillMap(unordered_map <string, float> *content, string docName) {
+void fillMap(unordered_map <string, float> *content, string docName, vector <string> *text) {
     string word;
     
     ifstream myfile;
@@ -42,6 +42,8 @@ void fillMap(unordered_map <string, float> *content, string docName) {
                 } else {
                     content -> emplace(word, 1);
                 }
+
+                text -> push_back(word);
             }
         }
     }

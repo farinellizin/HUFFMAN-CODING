@@ -4,6 +4,6 @@
 #include "HuffTree.hpp"
 
 void mapToVector(vector <HuffTree*> &treeValues, unordered_map <string, float> &content);
-// void insertionSort(vector <HuffTree*> &treeValues);
+void writeInFile(vector <bool> &mainVector);
 
 #endif

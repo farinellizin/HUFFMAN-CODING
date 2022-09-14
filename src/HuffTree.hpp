@@ -8,7 +8,7 @@ using namespace std;
 struct Data {
     float normalizedValue;
     string word;
-    bool binaryCodification;
+    vector <bool> binaryCodification;
 };
 
 struct HuffTree {

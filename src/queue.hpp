@@ -25,5 +25,8 @@ void doQueue(Queue *q, qData value);
 void deQueue(Queue *q, qData *value);
 bool isQueueEmpty(Queue *q);
 void widthPath(HuffTree **t);
+void generateCode(HuffTree **t);
+void findWordCode(HuffTree **t, string wordToSearch, vector <bool> &vectorToSave);
+void translateToBinary(vector <bool> &mainVector, vector <string> &text, HuffTree **t);
 
 #endif

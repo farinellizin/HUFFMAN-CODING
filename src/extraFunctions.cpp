@@ -1,22 +1,5 @@
 #include "extraFunctions.hpp"
 
-// void insertionSort(vector <HuffTree*> &treeValues) {
-//     HuffTree *aux;
-//     int j;
-
-//     for (long unsigned int i = 1; i < treeValues.size(); i++) {
-//         aux = treeValues[i];
-//         j = i - 1;
-
-//         while (j >= 0 && aux-> item.normalizedValue > treeValues[j]->item.normalizedValue) {
-//             treeValues[j + 1] = treeValues[j];
-//             j = j - 1;
-//         }
-
-//         treeValues[j + 1] = aux;
-//     }
-// }
-
 void mapToVector(vector <HuffTree*> &treeValues, unordered_map <string, float> &content) {
     HuffTree *aux;
 
@@ -27,5 +10,15 @@ void mapToVector(vector <HuffTree*> &treeValues, unordered_map <string, float> &
         aux -> leftSon = NULL;
         aux -> rightSon = NULL;
         treeValues.push_back(aux);
+    }
+}
+
+void writeInFile(vector <bool> &mainVector) {
+    FILE *myfile;
+    myfile = fopen("text.dat", "wb");
+    if (myfile != NULL) {
+        fwrite(&mainVector, sizeof(bool), mainVector.size(), myfile);
+    } else {
+        cout << "unnable to write" << endl;
     }
 }
