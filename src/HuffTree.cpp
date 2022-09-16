@@ -8,7 +8,7 @@ void insertionSort(vector <HuffTree*> &treeValues) {
         aux = treeValues[i];
         j = i - 1;
 
-        while (j >= 0 && aux-> item.normalizedValue > treeValues[j]->item.normalizedValue) {
+        while (j >= 0 && aux -> item.normalizedValue > treeValues[j] -> item.normalizedValue) {
             treeValues[j + 1] = treeValues[j];
             j = j - 1;
         }

@@ -107,12 +107,12 @@ Inicialmente, foram criadas as **Structs** utilizadas no programa, sendo uma par
 struct Data {
     float normalizedValue;
     string word;
-    bool binaryCodification;
+    vector <bool> binaryCodification;
 };
 
 struct HuffTree {
     Data item;
-    HuffTree *leftSon, *rightSon;
+    HuffTree *leftSon, *rightSon, *dad;
 };
 ```
 
@@ -152,10 +152,10 @@ string stringTreatment(string content) {
 }
 ```
 
-Após todo esse processamento de palavra, chega ao ponto de verificar se a mesma pode ser inserida no **std::unordered_map**. Para tal, a palavra é procurada dentre todas as outras que já foram inseridas, por meio da função built-in **std::unordered_map::find**, caso a palavra seja encontrada, é incrementado um em seu contador, caso contrário, a palavra é inserida, ela mesma a _chave_, e seu contéudo sendo o contador, iniciado em 1. A função por completo pode ser vista abaixo:
+Após todo esse processamento de palavra, chega ao ponto de verificar se a mesma pode ser inserida no **std::unordered_map**. Para tal, a palavra é procurada dentre todas as outras que já foram inseridas, por meio da função built-in **std::unordered_map::find**, caso a palavra seja encontrada, é incrementado um em seu contador, caso contrário, a palavra é inserida, ela mesma a _chave_, e seu contéudo sendo o contador, iniciado em 1. Além da inserção no **std::unordered_map**, é realizada a inserção em um **std::vector**, sendo ele preenchido com todo o conteúdo do texto, independente de repetições ou não, o que será usado futuramente. A função por completo pode ser vista abaixo:
 
 ```c++
-void fillMap(unordered_map <string, float> *content, string docName) {
+void fillMap(unordered_map <string, float> *content, string docName, vector <string> *text) {
     string word;
     
     ifstream myfile;
@@ -173,6 +173,8 @@ void fillMap(unordered_map <string, float> *content, string docName) {
                 } else {
                     content -> emplace(word, 1);
                 }
+
+                text -> push_back(word);
             }
         }
     }
@@ -232,10 +234,10 @@ void normalizeAccounting(float maxRP, float minRP, unordered_map <string, float>
 }
 ```
 
-Após os valores serem normalizados dentro do **std::unordered_map**, chega ao ponto de transformá-los em "nós soltos" da árvore de Huffman, por meio da função **_mapToVector()_**. Para tal propósito, foi criado um **std::vector** com o tipo de dado **HuffTree***, isto é, o ponteiro da **Struct** vista em uma das primeiras linhas da Implementação, que representa os nós de uma árvore. Percebe-se que, nela existem 3 tipos de dados:
+Após os valores serem normalizados dentro do **std::unordered_map**, chega ao ponto de transformá-los em "nós soltos" da árvore de Huffman, por meio da função **_mapToVector()_**. Para tal propósito, foi criado um **std::vector** com o tipo de dado **HuffTree***, isto é, o ponteiro da **Struct** vista em uma das primeiras linhas da implementação, que representa os nós de uma árvore. Percebe-se que, nela existem 3 tipos de dados:
    - **_float:_** representa o valor normalizado de cada uma das palavras;
    - **_string:_** armazena, de fato, o conteúdo da palavra;
-   - **_bool:_** é usado posteriormente para, realmente implementar a codificação de Huffman.
+   - **_vector booleano:_** é usado posteriormente para, realmente implementar a codificação de Huffman, haja visto que a codificação fica salvo no mesmo.
 
 Anteriormente, foram usados dois tipos de dados para estruturar o **std::unordered_map**:
    - **_string:_** era a chave para acessar o conteúdo seguinte;
@@ -254,7 +256,38 @@ void mapToVector(vector <HuffTree*> &treeValues, unordered_map <string, float> &
         aux = new HuffTree;
         aux -> item.word = search.first;
         aux -> item.normalizedValue = search.second;
+        aux -> leftSon = NULL;
+        aux -> rightSon = NULL;
         treeValues.push_back(aux);
     }
 }
 ```
+
+Após o que foi realizado acima, é necessário utilizar de um método de ordenação, haja visto que a ideia da **Codificação de Huffman** consiste em sempre juntar os menores valores. A ordenação foi feita visando a ordem decrescente, de forma que os dois menores valores estejam nas duas últimas posições do **std::vector**. Para tal propósito, foi implementado o **_Insertion Sort_**, haja visto que há constantes reinserções no **std::vector** anteriormente mencionado. A função pode ser vista abaixo:
+
+```c++
+void insertionSort(vector <HuffTree*> &treeValues) {
+    HuffTree *aux;
+    int j;
+
+    for (long unsigned int i = 1; i < treeValues.size(); i++) {
+        aux = treeValues[i];
+        j = i - 1;
+
+        while (j >= 0 && aux -> item.normalizedValue > treeValues[j] -> item.normalizedValue) {
+            treeValues[j + 1] = treeValues[j];
+            j = j - 1;
+        }
+
+        treeValues[j + 1] = aux;
+    }
+}
+```
+
+Toda a parte "preparativa" para a **Codificação de Huffman** já foi realizada, portanto, chega ao momento de realmente implementá-la. Para tal, foi criada a função **_joinNodes()_**, a qual recebe o **std::vector** anteriormente criado e preenchido na função **_mapToVector()_**.
+
+Partindo do conteúdo presente na estrutura supracitada, é criado um looping **while** que itera até que o tamanho do **std::vector** seja **1**, haja visto que, no momento em que chegar em tal condição, todos os nós "soltos" já terão sido juntados.
+
+Dentro do looping, o primeiro passo é fazer com que duas variáveis auxiliares, **leftSon** e **rightSon**, do tipo **HuffTree**, recebam, respectivamente, o último e o penúltimo valor do **std::vector**, pois, como já foi citado anteriormente, já são os dois menores, além de seguir o que é entendido até mesmo nas árvores binárias: o filho esquerdo sempre recebe o menor valor, ficando o maior para o direito.
+
+Seguido da obtenção dos dois nós, é chamada a função built-in **std::vector::pop_back()**, pois as duas últimas posições não serão mais úteis, e não podem estar na estrutura uma vez que comprometeriam as iterações futuras da função.
