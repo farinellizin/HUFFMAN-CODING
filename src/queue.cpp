@@ -118,7 +118,7 @@ void findWordCode(HuffTree **t, string wordToSearch, vector <bool> &vectorToSave
         deQueue(&aQueue, &aux);
 
         if (aux.val -> item.word == wordToSearch) {
-            vectorToSave = aux.val ->item.binaryCodification;
+            vectorToSave = aux.val -> item.binaryCodification;
         }
 
         if (aux.val -> leftSon != NULL) {

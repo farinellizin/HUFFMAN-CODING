@@ -15,7 +15,8 @@ void mapToVector(vector <HuffTree*> &treeValues, unordered_map <string, float> &
 
 void writeInFile(vector <bool> &mainVector) {
     FILE *myfile;
-    myfile = fopen("text.dat", "wb");
+    myfile = fopen("text.bin", "wb");
+    
     if (myfile != NULL) {
         fwrite(&mainVector, sizeof(bool), mainVector.size(), myfile);
     }

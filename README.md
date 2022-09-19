@@ -131,7 +131,14 @@ bool stopLetters(string content) {
     return true;
 }
 ```
-
+void writeInFile(vector <bool> &mainVector) {
+    FILE *myfile;
+    myfile = fopen("text.bin", "wb");
+    
+    if (myfile != NULL) {
+        fwrite(&mainVector, sizeof(bool), mainVector.size(), myfile);
+    }
+}
 Caso a verificação seja verdadeira, a variável é então passada como parâmetro para a função **_stringTreatment()_**, a qual tem como proposta remover caracteres especiais, acentuação e pontuacão: 
 
 ```c++
@@ -286,8 +293,154 @@ void insertionSort(vector <HuffTree*> &treeValues) {
 
 Toda a parte "preparativa" para a **Codificação de Huffman** já foi realizada, portanto, chega ao momento de realmente implementá-la. Para tal, foi criada a função **_joinNodes()_**, a qual recebe o **std::vector** anteriormente criado e preenchido na função **_mapToVector()_**.
 
-Partindo do conteúdo presente na estrutura supracitada, é criado um looping **while** que itera até que o tamanho do **std::vector** seja **1**, haja visto que, no momento em que chegar em tal condição, todos os nós "soltos" já terão sido juntados.
+Partindo do conteúdo presente na estrutura supracitada, é criado um looping **while** que itera até que o tamanho do **std::vector** seja **1**, haja visto que, no momento em que chegar em tal condição, todos os nós "soltos" já terão sido agrupados.
 
 Dentro do looping, o primeiro passo é fazer com que duas variáveis auxiliares, **leftSon** e **rightSon**, do tipo **HuffTree**, recebam, respectivamente, o último e o penúltimo valor do **std::vector**, pois, como já foi citado anteriormente, já são os dois menores, além de seguir o que é entendido até mesmo nas árvores binárias: o filho esquerdo sempre recebe o menor valor, ficando o maior para o direito.
 
 Seguido da obtenção dos dois nós, é chamada a função built-in **std::vector::pop_back()**, pois as duas últimas posições não serão mais úteis, e não podem estar na estrutura uma vez que comprometeriam as iterações futuras da função.
+
+Feito isso, há a criação de um novo nó, aquele que será o pai dos dois nós anteriormente obtidos. O valor do mesmo será a soma dos valores normalizados dos dois nós retirados do **std::vector**, enquanto os filhos serão definidos seguindo o seguinte critério:
+- O filho esquerdo será o primeiro valor retirado (menor do **std::vector**);
+- O filho direito será o segundo valor retirado (segundo menor do **std::vector**).
+
+Além disso, os supracitados filhos receberão o endereço de memória do nó recentemente criado, como sendo seu "pai". Por fim, o novo nó é inserido novamente no **std::vector**, a fim de repetir o mesmo processo até que o tamanho da estrutura de armazenamento se torne **1**.
+
+Ao sair do looping, a raiz da árvore recebe **NULL** como pai, e recebe um **std::vector booleano** vazio, que será utilizado futuramente. A implementação pode ser vista abaixo:
+
+```c++
+void joinNodes(vector <HuffTree*> &treeValues) {
+    HuffTree *leftSon;
+    HuffTree *rightSon;
+    HuffTree *aux;
+    vector <bool> auxVec;
+    
+    while (treeValues.size() != 1) {
+        leftSon = treeValues[treeValues.size() - 1];
+        rightSon = treeValues[treeValues.size() - 2];
+
+        treeValues.pop_back();
+        treeValues.pop_back();
+
+        aux = new HuffTree;
+        aux -> item.normalizedValue = (leftSon -> item.normalizedValue + rightSon -> item.normalizedValue);
+        aux -> leftSon = leftSon;
+        aux -> leftSon -> dad = aux;
+        aux -> rightSon = rightSon;
+        aux -> rightSon -> dad = aux;
+
+        treeValues.push_back(aux);
+        insertionSort(treeValues);
+    }
+
+    treeValues[0] -> dad = NULL;
+    treeValues[0] -> item.binaryCodification = auxVec;
+}
+```
+
+Chega ao ponto em que se deve gerar o código para cada uma das palavras que se tem armazenada na árvore, seguindo as regras da **Codificação de Huffman**. Para tal, foi criado a função **_generateCode()_**. Na mesma, foi utilizada a lógica da *_impressão por largura_* para percorrer pela árvore, utilizando uma **Fila** como estrutura auxiliar para o processo.
+
+É iniciado um looping na raiz da árvore, e então é checado se o filho esquerdo é diferente de nulo, caso seja, o **std::vector** da estrutura do pai é inserida no do filho, além de utilizar a função **std::vector::push_back()** para acresentar o valor booleano **0**, na última posição. O mesmo processo é realizado para o filho direito, com a contraposição de que, ao contrário de inserir o mesmo valor booleano, é inserido o **1**.
+
+Por fim, após as atualizações, os filhos são inseridos na fila, para que possam ser processados futuramente no looping.
+
+```c++
+void generateCode(HuffTree **t) {
+    Queue aQueue;
+    MEQueue(&aQueue);
+    qData aux, son;
+    aux.val = *t;
+    doQueue(&aQueue, aux);
+    bool booleanAux;
+
+    while(!isQueueEmpty(&aQueue)) {
+        deQueue(&aQueue, &aux);
+
+        if (aux.val -> leftSon != NULL) {
+            aux.val -> leftSon -> item.binaryCodification = aux.val -> leftSon -> dad-> item.binaryCodification;
+            booleanAux = 0;
+            aux.val -> leftSon -> item.binaryCodification.push_back(booleanAux);
+
+            son.val = aux.val -> leftSon;
+            doQueue(&aQueue, son);
+        }
+
+        if (aux.val -> rightSon != NULL) {
+            aux.val -> rightSon -> item.binaryCodification = aux.val -> rightSon -> dad -> item.binaryCodification;
+            booleanAux = 1;
+            aux.val -> rightSon -> item.binaryCodification.push_back(booleanAux);
+
+            son.val = aux.val -> rightSon;
+            doQueue(&aQueue, son);
+        }
+    }
+}
+```
+
+Após a geração dos códigos, é necessário traduzir o texto tido como input para valores binários, de forma que todos os códigos se tornem um único. Para tal propósito, foi criada a função **_translateToBinary()_**. Nela, é criado um looping que itera até que o **std::vector text**, criado quando ainda era feita a leitura de arquivo, esteja vazio, pois, com isso, significará que todo o texto já foi processado. 
+
+É sempre retirada a primeira palavra do **std::vector**, como forma de seguir a ordem. Na sequência, é procurada na **Árvore de Huffman**, a codificação referente à determinada palavra.
+
+Brevemente, a função **_findWordCode()_** é a responsável por tal tarefa. Ela funciona seguindo a proposta da *_impressão por largura_*. Quando a palavra desejada é encontrada, o conteúdo do **std::vector booleano** é salvo em um endereço de memória, a fim de ser aproveitado em outro lugar. A implementação é a que segue.
+
+```c++
+void findWordCode(HuffTree **t, string wordToSearch, vector <bool> &vectorToSave) {
+    Queue aQueue;
+    MEQueue(&aQueue);
+    qData aux, son;
+    aux.val = *t;
+    doQueue(&aQueue, aux);
+    
+    while(!isQueueEmpty(&aQueue)) {
+        deQueue(&aQueue, &aux);
+
+        if (aux.val -> item.word == wordToSearch) {
+            vectorToSave = aux.val -> item.binaryCodification;
+        }
+
+        if (aux.val -> leftSon != NULL) {
+            son.val = aux.val -> leftSon;
+            doQueue(&aQueue, son);
+        }
+
+        if (aux.val -> rightSon != NULL) {
+            son.val = aux.val -> rightSon;
+            doQueue(&aQueue, son);
+        }
+
+    }
+}
+```
+
+Voltando a tradução, ao se ter o conteúdo booleano de uma única palavra, o mesmo é "concatenado" ao conteúdo das palavras anteriores, como uma forma de compor o texto.
+
+Por fim, a primeira posição do **std::vector text** é apagada, haja visto que a mesma já foi processada, assim como o **std::vector** auxiliar é limpo, a fim de estar apto a receber o próximo conteúdo sem comprometer a integridade do programa. Segue a implementação:
+
+```c++
+void translateToBinary(vector <bool> &mainVector, vector <string> &text, HuffTree **t) {
+    string aux;
+    vector <bool> auxVec;
+
+    while (!text.empty()) {
+        findWordCode(t, text[0], auxVec);
+        for (long unsigned int i = 0; i < auxVec.size(); i++) {
+            mainVector.push_back(auxVec[i]);
+        }
+
+        text.erase(text.begin());
+        auxVec.clear();
+    }   
+}
+```
+
+Por fim, o que resta é inserir o conteúdo do **mainVector** no documento **.bin**. É utilizada a função built-in do **C**, **fwrite**. A transcrição foi jogada para uma outra função para fins organizacionais:
+
+```c++
+void writeInFile(vector <bool> &mainVector) {
+    FILE *myfile;
+    myfile = fopen("text.bin", "wb");
+    
+    if (myfile != NULL) {
+        fwrite(&mainVector, sizeof(bool), mainVector.size(), myfile);
+    }
+}
+```
