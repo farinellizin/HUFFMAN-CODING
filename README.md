@@ -20,7 +20,10 @@
         <dt> 6. Realizar a normalização de todos os valores presentes no std::unordered_map;</dt>
         <dt> 7. Transferir todos os valores do std::unordered_map para um std::vector, que receberá o tipo da Struct criada no passo 1; </dt>
         <dt> 8. Realizar a junção de todos os nós presentes no std::vector de acordo com o que foi proposto por Huffman, até que reste somente um elemento; </dt>
-        <dt> <br><br><br> CONTINUAR DEPOIS</dt>
+        <dt> 9. Gerar os códigos para cada uma das palavras, seguindo a ideia que foi proposta por Huffman;</dt>
+        <dt> 10. Juntar os códigos de cada uma das palavras na mesma ordem que elas aparecem no documento .txt;</dt>
+        <dt> 11. Escrever em um arquivo binário;</dt>
+        <dt> 12. Analisar o ganho de desempenho, o qual é inversamente proporcional ao tamanho do arquivo binário gerado.</dt>
     </d1>
 </p>
 
@@ -432,7 +435,7 @@ void translateToBinary(vector <bool> &mainVector, vector <string> &text, HuffTre
 }
 ```
 
-Por fim, o que resta é inserir o conteúdo do **mainVector** no documento **.bin**. É utilizada a função built-in do **C**, **fwrite**. A transcrição foi jogada para uma outra função para fins organizacionais:
+Por fim, o que resta é inserir o conteúdo do **mainVector** no documento **.bin**. É utilizada a função built-in do **C**, **fwrite**. A transcrição foi realizada em uma outra função para fins organizacionais:
 
 ```c++
 void writeInFile(vector <bool> &mainVector) {
@@ -444,3 +447,43 @@ void writeInFile(vector <bool> &mainVector) {
     }
 }
 ```
+
+<h2 align="center">
+    📈
+    <strong>
+        <em> 
+            Resultados Esperados
+        </em>    
+    </strong>
+</h2>
+
+Uma boa forma de avaliar a eficiência e funcionalidade do programa se dá pela observação na diminuição do tamanho dos arquivos, eficiência essa que foi de fato possivel de visualizar:
+
+#### Conteúdo .txt:
+
+<p align="center">
+  <img height="250rem" src="/imgs/txtprop.png">
+</p>
+
+#### Conteúdo .bin:
+
+<p align="center">
+  <img height="250rem" src="/imgs/binprop.png">
+</p>
+
+<h2 align="center">
+    🔧
+    <strong>
+        <em> 
+            Compilação e Execução
+        </em>    
+    </strong>
+</h2>
+
+| Comando                |  Função                                                                                           |                     
+| -----------------------| ------------------------------------------------------------------------------------------------- |
+|  `make clean`          | Apaga a última compilação realizada contida na pasta build                                        |
+|  `make`                | Executa a compilação do programa utilizando o g++, e o resultado vai para a pasta build           |
+|  `make run`            | Executa o programa da pasta build após a realização da compilação             
+
+É recomendável utilizar o comando **make clean** antes de partir para o **make** e sequencialmente **make run**.

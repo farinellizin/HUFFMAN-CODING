@@ -21,7 +21,6 @@ int main () {
     insertionSort(treeValues);
     joinNodes(treeValues);
     generateCode(&treeValues[0]);
-    widthPath(&treeValues[0]);
     translateToBinary(mainVector, text, &treeValues[0]);
     writeInFile(mainVector);
 }
